@@ -9,23 +9,34 @@ import SwiftUI
 import WebKit
 
 struct ContentView: View {
-    @State private var urlString = "https://github.com"
-    @State private var currentURL = "https://github.com"
+    @State private var showWebView = false
+    @State private var initialURL = "https://d6fj3i055l26g.cloudfront.net"
+    @State private var showNavigation = true
+    @State private var showURLBar = true
+    @State private var showConsoleButton = false
 
     var body: some View {
-        VStack(spacing: 0) {
-            HStack {
-                TextField("Input URL", text: $urlString).textFieldStyle(
-                    RoundedBorderTextFieldStyle()
-                ).keyboardType(.URL) // URLキーボードを使用
-                    .textContentType(.URL) // URL入力として認識
-                    .autocapitalization(.none) // 自動大文字変換をオフ
-                    .autocorrectionDisabled() // 自動修正をオフ
-                Button("GO") {
-                    currentURL = urlString
-                }.padding(.leading, 8)
-            }.padding()
-            WebView(urlString: currentURL)
+        if !showWebView {
+            InitialConfigView(
+                url: $initialURL,
+                showNavigation: $showNavigation,
+                showURLBar: $showURLBar,
+                showConsoleButton: $showConsoleButton,
+                onStart: {
+                    showWebView = true
+                }
+            )
+        } else {
+            WebViewScreen(
+                webView: WKWebView(),
+                initialURL: initialURL,
+                showNavigation: showNavigation,
+                showURLBar: showURLBar,
+                showConsoleButton: showConsoleButton,
+                onBack: {
+                    showWebView = false
+                }
+            )
         }
     }
 }
