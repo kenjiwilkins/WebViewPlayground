@@ -78,7 +78,7 @@ struct WebViewScreen: View {
                         if webView.canGoBack {
                             webView.goBack()
                         }
-                    }){
+                    }) {
                         Image(systemName: "chevron.backward")
                             .font(.title2)
                             .foregroundColor(canGoBack ? .blue : .gray)
@@ -90,7 +90,7 @@ struct WebViewScreen: View {
                         if webView.canGoForward {
                             webView.goForward()
                         }
-                    }){
+                    }) {
                         Image(systemName: "chevron.forward")
                             .font(.title2)
                             .foregroundColor(canGoForward ? .blue : .gray)
@@ -100,7 +100,7 @@ struct WebViewScreen: View {
                     // reload button
                     Button(action: {
                         webView.reload()
-                    }){
+                    }) {
                         Image(systemName: "arrow.clockwise")
                             .font(.title2)
                             .foregroundColor(.blue)
