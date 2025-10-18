@@ -14,15 +14,16 @@ struct CustomWebView: UIViewRepresentable {
     @Binding var canGoForward: Bool
     @Binding var isLoading: Bool
     @Binding var currentURLString: String
-
+    let isDarkTheme: Bool
+    
     class Coordinator: NSObject, WKNavigationDelegate {
         var parent: CustomWebView
-
+        
         init(_ parent: CustomWebView) {
             self.parent = parent
         }
-
-        override func observeValue(forKeyPath keyPath: String?, of object: Any?, change _: [NSKeyValueChangeKey: Any]?, context _: UnsafeMutableRawPointer?) {
+        
+        override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
             guard let webView = object as? WKWebView else { return }
             if keyPath == "loading" {
                 parent.isLoading = webView.isLoading
@@ -35,11 +36,11 @@ struct CustomWebView: UIViewRepresentable {
             }
         }
     }
-
+    
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-
+    
     func makeUIView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
         let contentController = WKUserContentController()
@@ -55,11 +56,14 @@ struct CustomWebView: UIViewRepresentable {
         }
         return webView
     }
-
-    func updateUIView(_ uiView: WKWebView, context _: Context) {
+    
+    func updateUIView(_ uiView: WKWebView, context: Context) {
         if let url = URL(string: urlString) {
             let requiest = URLRequest(url: url)
             uiView.load(requiest)
         }
+        uiView.overrideUserInterfaceStyle = isDarkTheme ? .dark : .light
     }
+    
+
 }

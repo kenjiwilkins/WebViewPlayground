@@ -20,9 +20,10 @@ struct WebViewScreen: View {
     let showNavigation: Bool
     let showURLBar: Bool
     let showConsoleButton: Bool
+    let isDarkTheme: Bool
     let onBack: () -> Void
 
-    init(webView: WKWebView, initialURL: String, showNavigation: Bool, showURLBar: Bool, showConsoleButton: Bool, onBack: @escaping () -> Void) {
+    init(webView: WKWebView, initialURL: String, showNavigation: Bool, showURLBar: Bool, showConsoleButton: Bool, isDarkTheme: Bool, onBack: @escaping () -> Void) {
         _urlString = State(initialValue: initialURL)
         _currentURL = State(initialValue: initialURL)
         self.showNavigation = showNavigation
@@ -30,6 +31,7 @@ struct WebViewScreen: View {
         self.onBack = onBack
         self.webView = webView
         self.showURLBar = showURLBar
+        self.isDarkTheme = isDarkTheme
     }
 
     var body: some View {
@@ -65,7 +67,8 @@ struct WebViewScreen: View {
                 canGoBack: $canGoBack,
                 canGoForward: $canGoForward,
                 isLoading: $isLoading,
-                currentURLString: $currentURL
+                currentURLString: $currentURL,
+                isDarkTheme: isDarkTheme
             )
             Spacer(minLength: 0)
             if showNavigation {
@@ -120,6 +123,7 @@ struct WebViewScreen: View {
         showNavigation: true,
         showURLBar: true,
         showConsoleButton: false,
+        isDarkTheme: false,
         onBack: { webView.goBack() }
     )
 }

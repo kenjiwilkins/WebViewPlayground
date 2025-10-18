@@ -10,34 +10,40 @@ import WebKit
 
 struct ContentView: View {
     @State private var showWebView = false
-    @State private var initialURL = "https://d6fj3i055l26g.cloudfront.net"
+    @State private var initialURL = "https://www.youtube.com/"
     @State private var showNavigation = true
     @State private var showURLBar = true
     @State private var showConsoleButton = false
+    @State private var isDarkTheme = false
 
     var body: some View {
-        if !showWebView {
-            InitialConfigView(
-                url: $initialURL,
-                showNavigation: $showNavigation,
-                showURLBar: $showURLBar,
-                showConsoleButton: $showConsoleButton,
-                onStart: {
-                    showWebView = true
-                }
-            )
-        } else {
-            WebViewScreen(
-                webView: WKWebView(),
-                initialURL: initialURL,
-                showNavigation: showNavigation,
-                showURLBar: showURLBar,
-                showConsoleButton: showConsoleButton,
-                onBack: {
-                    showWebView = false
-                }
-            )
+        ZStack {
+            if !showWebView {
+                InitialConfigView(
+                    url: $initialURL,
+                    showNavigation: $showNavigation,
+                    showURLBar: $showURLBar,
+                    showConsoleButton: $showConsoleButton,
+                    isDarkTheme: $isDarkTheme,
+                    onStart: {
+                        showWebView = true
+                    }
+                )
+            } else {
+                WebViewScreen(
+                    webView: WKWebView(),
+                    initialURL: initialURL,
+                    showNavigation: showNavigation,
+                    showURLBar: showURLBar,
+                    showConsoleButton: showConsoleButton,
+                    isDarkTheme: isDarkTheme,
+                    onBack: {
+                        showWebView = false
+                    }
+                )
+            }
         }
+        .preferredColorScheme(isDarkTheme ? .dark : .light)
     }
 }
 

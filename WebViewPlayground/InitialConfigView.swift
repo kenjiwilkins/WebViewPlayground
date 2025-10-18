@@ -12,6 +12,7 @@ struct InitialConfigView: View {
     @Binding var showNavigation: Bool
     @Binding var showURLBar: Bool
     @Binding var showConsoleButton: Bool
+    @Binding var isDarkTheme: Bool
     let onStart: () -> Void
 
     var body: some View {
@@ -27,6 +28,7 @@ struct InitialConfigView: View {
                     Toggle("Display navigation button", isOn: $showNavigation)
                     Toggle("Display URL Bar", isOn: $showURLBar)
                     Toggle("Display Console Button", isOn: $showConsoleButton)
+                    Toggle("Dark Theme", isOn: $isDarkTheme)
                 }
 
                 Section(header: Text("プリセットURL")) {
@@ -53,4 +55,20 @@ struct InitialConfigView: View {
             }
         }.navigationTitle("WebView Tester")
     }
+}
+
+#Preview {
+    @State var url = "https://google.com"
+    @State var showNavigation = true
+    @State var showURLBar = true
+    @State var showConsoleButton = false
+    @State var isDarkTheme = false
+    return InitialConfigView(
+        url: $url,
+        showNavigation: $showNavigation,
+        showURLBar: $showURLBar,
+        showConsoleButton: $showConsoleButton,
+        isDarkTheme: $isDarkTheme,
+        onStart: {}
+    )
 }
