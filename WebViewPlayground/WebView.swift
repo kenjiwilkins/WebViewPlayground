@@ -46,6 +46,7 @@ struct CustomWebView: UIViewRepresentable {
         let contentController = WKUserContentController()
         config.userContentController = contentController
         let webView = WKWebView(frame: .zero, configuration: config)
+        webView.isInspectable = true
         webView.navigationDelegate = context.coordinator
         webView.addObserver(context.coordinator, forKeyPath: "loading", options: .new, context: nil)
         webView.addObserver(context.coordinator, forKeyPath: "canGoBack", options: .new, context: nil)
