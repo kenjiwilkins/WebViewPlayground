@@ -26,13 +26,21 @@ struct CustomWebView: UIViewRepresentable {
         override func observeValue(forKeyPath keyPath: String?, of object: Any?, change _: [NSKeyValueChangeKey: Any]?, context _: UnsafeMutableRawPointer?) {
             guard let webView = object as? WKWebView else { return }
             if keyPath == "loading" {
-                parent.isLoading = webView.isLoading
+                DispatchQueue.main.async {
+                    self.parent.isLoading = webView.isLoading
+                }
             } else if keyPath == "canGoBack" {
-                parent.canGoBack = webView.canGoBack
+                DispatchQueue.main.async {
+                    self.parent.canGoBack = webView.canGoBack
+                }
             } else if keyPath == "canGoForward" {
-                parent.canGoForward = webView.canGoForward
+                DispatchQueue.main.async {
+                    self.parent.canGoForward = webView.canGoForward
+                }
             } else if keyPath == "URL" {
-                parent.currentURLString = webView.url?.absoluteString ?? ""
+                DispatchQueue.main.async {
+                    self.parent.currentURLString = webView.url?.absoluteString ?? ""
+                }
             }
         }
     }
@@ -59,9 +67,9 @@ struct CustomWebView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: WKWebView, context _: Context) {
-        if let url = URL(string: urlString) {
-            let requiest = URLRequest(url: url)
-            uiView.load(requiest)
+        if uiView.url?.absoluteString != urlString, let url = URL(string: urlString) {
+            let request = URLRequest(url: url)
+            uiView.load(request)
         }
         uiView.overrideUserInterfaceStyle = isDarkTheme ? .dark : .light
     }
