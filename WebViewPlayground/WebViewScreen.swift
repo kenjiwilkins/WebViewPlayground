@@ -46,17 +46,15 @@ struct WebViewScreen: View {
             }
             .padding(.vertical, 8)
             .background(Color.gray.opacity(0.1))
-
-            // Navigation Button
-            if showNavigation {
+            if showURLBar {
                 HStack {
-                    Button(action: {
-                        if webView.canGoBack {
-                            webView.goBack()
+                    // URL bar
+                    TextField("Enter URL", text: $urlString, onCommit: {
+                        if let url = URL(string: urlString) {
+                            webView.load(URLRequest(url: url))
                         }
-                    }) {
-                        Image(systemName: isLoading ? "xmark" : "arrow.clockwise").font(.title2)
-                    }
+                    })
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
             }
             if isLoading {
@@ -69,6 +67,59 @@ struct WebViewScreen: View {
                 isLoading: $isLoading,
                 currentURLString: $currentURL
             )
+            Spacer(minLength: 0)
+            if showNavigation {
+                HStack {
+                    // Back Button
+                    Button(action: {
+                        if webView.canGoBack {
+                            webView.goBack()
+                        }
+                    }){
+                        Image(systemName: "chevron.backward")
+                            .font(.title2)
+                            .foregroundColor(canGoBack ? .blue : .gray)
+                    }
+                    .disabled(!canGoBack)
+                    Spacer()
+                    // Forward Button
+                    Button(action: {
+                        if webView.canGoForward {
+                            webView.goForward()
+                        }
+                    }){
+                        Image(systemName: "chevron.forward")
+                            .font(.title2)
+                            .foregroundColor(canGoForward ? .blue : .gray)
+                    }
+                    .disabled(!canGoForward)
+                    Spacer()
+                    // reload button
+                    Button(action: {
+                        webView.reload()
+                    }){
+                        Image(systemName: "arrow.clockwise")
+                            .font(.title2)
+                            .foregroundColor(.blue)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 32)
+                .padding(.top, 8)
+                .background(Color.gray.opacity(0.1))
+            }
         }
     }
+}
+
+#Preview {
+    let webView = WKWebView()
+    WebViewScreen(
+        webView: webView,
+        initialURL: "https://line.me",
+        showNavigation: true,
+        showURLBar: true,
+        showConsoleButton: false,
+        onBack: { webView.goBack() }
+    )
 }
