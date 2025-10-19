@@ -15,6 +15,7 @@ enum WebViewSizeOption: String, CaseIterable, Identifiable {
 
 struct WebViewSizeSection: View {
     @Binding var selectedSize: WebViewSizeOption
+    @Binding var customHeight: CGFloat
     var body: some View {
         Section(header: Text("WebView Size")) {
             Picker("WebView Size", selection: $selectedSize) {
@@ -23,15 +24,26 @@ struct WebViewSizeSection: View {
                 }
             }
             .pickerStyle(.inline) // Shows as radio buttons in a Form
+            if selectedSize == .custom {
+                HStack {
+                    Text("Height (px)")
+                    Spacer()
+                    TextField("Height", value: $customHeight, formatter: NumberFormatter())
+                        .keyboardType(.numberPad)
+                        .frame(width: 80)
+                        .multilineTextAlignment(.trailing)
+                }
+            }
         }
     }
 }
 
 struct WebViewSizeSection_Previews: View {
     @State private var selectedSize: WebViewSizeOption = .full
+    @State private var customHeight: CGFloat = UIScreen.main.bounds.height / 2
     var body: some View {
         Form {
-            WebViewSizeSection(selectedSize: $selectedSize)
+            WebViewSizeSection(selectedSize: $selectedSize, customHeight: $customHeight)
         }
     }
 }
