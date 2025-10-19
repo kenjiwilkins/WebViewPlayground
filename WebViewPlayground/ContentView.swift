@@ -41,6 +41,8 @@ struct ContentView: View {
                         showURLBar: showURLBar,
                         showConsoleButton: showConsoleButton,
                         isDarkTheme: isDarkTheme,
+                        selectedSize: selectedSize,
+                        customHeight: customHeight,
                         onBack: {
                             path.removeLast()
                         }

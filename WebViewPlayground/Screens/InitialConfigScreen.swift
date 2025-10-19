@@ -29,18 +29,6 @@ struct InitialConfigScreen: View {
                 Toggle("Display Console Button", isOn: $showConsoleButton)
                 Toggle("Dark Theme", isOn: $isDarkTheme)
             }
-
-            Section(header: Text("プリセットURL")) {
-                Button("Apple") {
-                    url = "https://www.apple.com"
-                }
-                Button("Google") {
-                    url = "https://www.google.com"
-                }
-                Button("テストページ (Console Test)") {
-                    url = "https://jsfiddle.net"
-                }
-            }
             
             WebViewSizeSection(selectedSize: $selectedSize, customHeight: $customHeight)
 

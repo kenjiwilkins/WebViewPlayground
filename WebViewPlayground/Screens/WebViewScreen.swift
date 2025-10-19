@@ -21,9 +21,11 @@ struct WebViewScreen: View {
     let showURLBar: Bool
     let showConsoleButton: Bool
     let isDarkTheme: Bool
+    let selectedSize: WebViewSizeOption
+    let customHeight: CGFloat
     let onBack: () -> Void
 
-    init(webView: WKWebView, initialURL: String, showNavigation: Bool, showURLBar: Bool, showConsoleButton: Bool, isDarkTheme: Bool, onBack: @escaping () -> Void) {
+    init(webView: WKWebView, initialURL: String, showNavigation: Bool, showURLBar: Bool, showConsoleButton: Bool, isDarkTheme: Bool,selectedSize: WebViewSizeOption, customHeight: CGFloat, onBack: @escaping () -> Void) {
         _urlString = State(initialValue: initialURL)
         _currentURL = State(initialValue: initialURL)
         self.showNavigation = showNavigation
@@ -32,6 +34,8 @@ struct WebViewScreen: View {
         self.webView = webView
         self.showURLBar = showURLBar
         self.isDarkTheme = isDarkTheme
+        self.selectedSize = selectedSize
+        self.customHeight = customHeight
     }
 
     var body: some View {
@@ -124,6 +128,8 @@ struct WebViewScreen: View {
         showURLBar: true,
         showConsoleButton: false,
         isDarkTheme: false,
+        selectedSize: .full,
+        customHeight: UIScreen.main.bounds.height / 2,
         onBack: { webView.goBack() }
     )
 }
