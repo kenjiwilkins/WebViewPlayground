@@ -13,6 +13,8 @@ struct InitialConfigView: View {
     @Binding var showURLBar: Bool
     @Binding var showConsoleButton: Bool
     @Binding var isDarkTheme: Bool
+    @Binding var selectedSize: WebViewSizeOption
+    @Binding var customHeight: CGFloat
     let onStart: () -> Void
 
     var body: some View {
@@ -42,6 +44,7 @@ struct InitialConfigView: View {
                         url = "https://jsfiddle.net"
                     }
                 }
+                WebViewSizeSection(selectedSize: $selectedSize, customHeight: $customHeight)
 
                 Section {
                     Button(action: onStart) {
@@ -57,18 +60,28 @@ struct InitialConfigView: View {
     }
 }
 
-#Preview {
+struct InitialConfigViewPreview: View {
     @State var url = "https://google.com"
     @State var showNavigation = true
     @State var showURLBar = true
     @State var showConsoleButton = false
     @State var isDarkTheme = false
-    return InitialConfigView(
-        url: $url,
-        showNavigation: $showNavigation,
-        showURLBar: $showURLBar,
-        showConsoleButton: $showConsoleButton,
-        isDarkTheme: $isDarkTheme,
-        onStart: {}
-    )
+    @State var selectedSize: WebViewSizeOption = .full
+    @State var customHeight: CGFloat = UIScreen.main.bounds.height / 2
+    var body: some View {
+        InitialConfigView(
+            url: $url,
+            showNavigation: $showNavigation,
+            showURLBar: $showURLBar,
+            showConsoleButton: $showConsoleButton,
+            isDarkTheme: $isDarkTheme,
+            selectedSize: $selectedSize,
+            customHeight: $customHeight,
+            onStart: {}
+        )
+    }
+}
+
+#Preview {
+    InitialConfigViewPreview()
 }

@@ -15,6 +15,8 @@ struct ContentView: View {
     @State private var showConsoleButton = false
     @State private var isDarkTheme = false
     @State private var path: [String] = []
+    @State private var selectedSize: WebViewSizeOption = .full
+    @State private var customHeight: CGFloat = UIScreen.main.bounds.height / 2
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -24,6 +26,8 @@ struct ContentView: View {
                 showURLBar: $showURLBar,
                 showConsoleButton: $showConsoleButton,
                 isDarkTheme: $isDarkTheme,
+                selectedSize: $selectedSize,
+                customHeight: $customHeight,
                 onStart: {
                     path.append("WebViewScreen")
                 }
