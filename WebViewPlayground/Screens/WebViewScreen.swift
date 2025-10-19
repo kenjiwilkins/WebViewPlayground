@@ -66,14 +66,27 @@ struct WebViewScreen: View {
             if isLoading {
                 ProgressView().progressViewStyle(LinearProgressViewStyle())
             }
-            CustomWebView(
-                urlString: currentURL,
-                canGoBack: $canGoBack,
-                canGoForward: $canGoForward,
-                isLoading: $isLoading,
-                currentURLString: $currentURL,
-                isDarkTheme: isDarkTheme
-            )
+            if selectedSize == .custom {
+                CustomWebView(
+                    urlString: currentURL,
+                    canGoBack: $canGoBack,
+                    canGoForward: $canGoForward,
+                    isLoading: $isLoading,
+                    currentURLString: $currentURL,
+                    isDarkTheme: isDarkTheme
+                )
+                .frame(height: customHeight)
+                Filler()
+            } else {
+                CustomWebView(
+                    urlString: currentURL,
+                    canGoBack: $canGoBack,
+                    canGoForward: $canGoForward,
+                    isLoading: $isLoading,
+                    currentURLString: $currentURL,
+                    isDarkTheme: isDarkTheme
+                )
+            }
             Spacer(minLength: 0)
             if showNavigation {
                 HStack {
