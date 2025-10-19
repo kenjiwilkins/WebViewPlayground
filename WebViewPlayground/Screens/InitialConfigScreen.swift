@@ -54,18 +54,24 @@ struct InitialConfigScreen: View {
     }
 }
 
-#Preview {
+struct InitialConfigScreenPreview: View {
     @State var url = "https://www.youtube.com/"
     @State var showNavigation = true
     @State var showURLBar = true
     @State var showConsoleButton = false
     @State var isDarkTheme = false
-    return InitialConfigScreen(
-        url: $url,
-        showNavigation: $showNavigation,
-        showURLBar: $showURLBar,
-        showConsoleButton: $showConsoleButton,
-        isDarkTheme: $isDarkTheme,
-        onStart: {}
-    )
+    var body: some View {
+        InitialConfigScreen(
+            url: $url,
+            showNavigation: $showNavigation,
+            showURLBar: $showURLBar,
+            showConsoleButton: $showConsoleButton,
+            isDarkTheme: $isDarkTheme,
+            onStart: {}
+        )
+    }
+}
+
+#Preview {
+    InitialConfigScreenPreview()
 }
