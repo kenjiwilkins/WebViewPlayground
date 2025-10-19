@@ -9,57 +9,42 @@ import SwiftUI
 import WebKit
 
 struct ContentView: View {
-    @State private var showWebView = false
     @State private var initialURL = "https://www.youtube.com/"
     @State private var showNavigation = true
     @State private var showURLBar = true
     @State private var showConsoleButton = false
     @State private var isDarkTheme = false
+    @State private var path: [String] = []
 
     var body: some View {
-        ZStack {
-            if !showWebView {
-                InitialConfigView(
-                    url: $initialURL,
-                    showNavigation: $showNavigation,
-                    showURLBar: $showURLBar,
-                    showConsoleButton: $showConsoleButton,
-                    isDarkTheme: $isDarkTheme,
-                    onStart: {
-                        showWebView = true
-                    }
-                )
-            } else {
-                WebViewScreen(
-                    webView: WKWebView(),
-                    initialURL: initialURL,
-                    showNavigation: showNavigation,
-                    showURLBar: showURLBar,
-                    showConsoleButton: showConsoleButton,
-                    isDarkTheme: isDarkTheme,
-                    onBack: {
-                        showWebView = false
-                    }
-                )
+        NavigationStack(path: $path) {
+            InitialConfigScreen(
+                url: $initialURL,
+                showNavigation: $showNavigation,
+                showURLBar: $showURLBar,
+                showConsoleButton: $showConsoleButton,
+                isDarkTheme: $isDarkTheme,
+                onStart: {
+                    path.append("WebViewScreen")
+                }
+            )
+            .navigationDestination(for: String.self) { value in
+                if value == "WebViewScreen" {
+                    WebViewScreen(
+                        webView: WKWebView(),
+                        initialURL: initialURL,
+                        showNavigation: showNavigation,
+                        showURLBar: showURLBar,
+                        showConsoleButton: showConsoleButton,
+                        isDarkTheme: isDarkTheme,
+                        onBack: {
+                            path.removeLast()
+                        }
+                    )
+                }
             }
         }
         .preferredColorScheme(isDarkTheme ? .dark : .light)
-    }
-}
-
-struct WebView: UIViewRepresentable {
-    let urlString: String
-
-    func makeUIView(context _: Context) -> WKWebView {
-        let webView = WKWebView()
-        return webView
-    }
-
-    func updateUIView(_ webView: WKWebView, context _: Context) {
-        if let url = URL(string: urlString) {
-            let request = URLRequest(url: url)
-            webView.load(request)
-        }
     }
 }
 
