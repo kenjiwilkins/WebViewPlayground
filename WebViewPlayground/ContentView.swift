@@ -16,6 +16,7 @@ struct WebViewConfig: Hashable {
     let isDarkTheme: Bool
     let selectedSize: WebViewSizeOption
     let customHeight: CGFloat
+    let isShowSafeAreaVisualized: Bool = false
 
     static func == (lhs: WebViewConfig, rhs: WebViewConfig) -> Bool {
         lhs.url == rhs.url &&
@@ -24,7 +25,8 @@ struct WebViewConfig: Hashable {
         lhs.showConsoleButton == rhs.showConsoleButton &&
         lhs.isDarkTheme == rhs.isDarkTheme &&
         lhs.selectedSize == rhs.selectedSize &&
-        lhs.customHeight == rhs.customHeight
+        lhs.customHeight == rhs.customHeight &&
+        lhs.isShowSafeAreaVisualized == rhs.isShowSafeAreaVisualized
     }
 
     func hash(into hasher: inout Hasher) {
@@ -35,6 +37,7 @@ struct WebViewConfig: Hashable {
         hasher.combine(isDarkTheme)
         hasher.combine(selectedSize)
         hasher.combine(customHeight)
+        hasher.combine(isShowSafeAreaVisualized)
     }
 }
 
@@ -47,6 +50,7 @@ struct ContentView: View {
     @State private var path: [WebViewConfig] = []
     @State private var selectedSize: WebViewSizeOption = .full
     @State private var customHeight: CGFloat = UIScreen.main.bounds.height / 2
+    @State private var isSafeAreaVisuallized: Bool = false
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -58,6 +62,7 @@ struct ContentView: View {
                 isDarkTheme: $isDarkTheme,
                 selectedSize: $selectedSize,
                 customHeight: $customHeight,
+                isSafeAreaVisualized: $isSafeAreaVisuallized,
                 onStart: {
                     let config = WebViewConfig(
                         url: initialURL,

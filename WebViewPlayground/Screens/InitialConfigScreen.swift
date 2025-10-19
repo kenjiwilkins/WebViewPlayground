@@ -13,6 +13,7 @@ struct InitialConfigScreen: View {
     @Binding var isDarkTheme: Bool
     @Binding var selectedSize: WebViewSizeOption
     @Binding var customHeight: CGFloat
+    @Binding var isSafeAreaVisualized: Bool
     let onStart: () -> Void
 
     var body: some View {
@@ -28,6 +29,9 @@ struct InitialConfigScreen: View {
                 Toggle("Display URL Bar", isOn: $showURLBar)
                 Toggle("Display Console Button", isOn: $showConsoleButton)
                 Toggle("Dark Theme", isOn: $isDarkTheme)
+            }
+            if ((!showURLBar || !showNavigation) && selectedSize == .full) {
+                SafeAreaVisualizeSection(isSafeAreaVisualized: $isSafeAreaVisualized)
             }
             
             WebViewSizeSection(selectedSize: $selectedSize, customHeight: $customHeight)
@@ -54,6 +58,7 @@ struct InitialConfigScreenPreview: View {
     @State var isDarkTheme = false
     @State var selectedSize: WebViewSizeOption = .full
     @State var customHeight: CGFloat = UIScreen.main.bounds.height / 2
+    @State var isSafeAreaVisualized = false
     var body: some View {
         InitialConfigScreen(
             url: $url,
@@ -63,6 +68,7 @@ struct InitialConfigScreenPreview: View {
             isDarkTheme: $isDarkTheme,
             selectedSize: $selectedSize,
             customHeight: $customHeight,
+            isSafeAreaVisualized: $isSafeAreaVisualized,
             onStart: {}
         )
     }
