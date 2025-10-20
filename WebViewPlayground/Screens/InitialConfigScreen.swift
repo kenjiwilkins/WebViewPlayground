@@ -33,7 +33,7 @@ struct InitialConfigScreen: View {
             if !showURLBar && !showNavigation && selectedSize == .full {
                 SafeAreaVisualizeSection(isSafeAreaVisualized: $isSafeAreaVisualized)
             }
-            
+
             WebViewSizeSection(selectedSize: $selectedSize, customHeight: $customHeight)
 
             Section {

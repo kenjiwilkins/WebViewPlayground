@@ -12,7 +12,6 @@ struct SafeAreaVisualizeSection: View {
     var body: some View {
         Section(header: Text("SafeArea Display")) {
             Toggle("Visualize Safe Area", isOn: $isSafeAreaVisualized)
-            
         }
     }
 }
@@ -21,7 +20,7 @@ struct SafeAreaVisualizeSection_Previews: View {
     @State private var isSafeAreaVisualized: Bool = false
     var body: some View {
         Form {
-            SafeAreaVisualizeSection(isSafeAreaVisualized:$isSafeAreaVisualized)
+            SafeAreaVisualizeSection(isSafeAreaVisualized: $isSafeAreaVisualized)
         }
     }
 }

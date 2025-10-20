@@ -26,7 +26,7 @@ struct WebViewScreen: View {
     let isSafeAreaVisualized: Bool
     let onBack: () -> Void
 
-    init(webView: WKWebView, initialURL: String, showNavigation: Bool, showURLBar: Bool, showConsoleButton: Bool, isDarkTheme: Bool,selectedSize: WebViewSizeOption, customHeight: CGFloat,isSafeAreaVisualized: Bool, onBack: @escaping () -> Void) {
+    init(webView: WKWebView, initialURL: String, showNavigation: Bool, showURLBar: Bool, showConsoleButton: Bool, isDarkTheme: Bool, selectedSize: WebViewSizeOption, customHeight: CGFloat, isSafeAreaVisualized: Bool, onBack: @escaping () -> Void) {
         _urlString = State(initialValue: initialURL)
         _currentURL = State(initialValue: initialURL)
         self.showNavigation = showNavigation
