@@ -30,7 +30,7 @@ struct InitialConfigScreen: View {
                 Toggle("Display Console Button", isOn: $showConsoleButton)
                 Toggle("Dark Theme", isOn: $isDarkTheme)
             }
-            if ((!showURLBar || !showNavigation) && selectedSize == .full) {
+            if ((!showURLBar && !showNavigation) && selectedSize == .full) {
                 SafeAreaVisualizeSection(isSafeAreaVisualized: $isSafeAreaVisualized)
             }
             

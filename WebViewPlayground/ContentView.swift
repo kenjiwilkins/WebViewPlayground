@@ -86,6 +86,7 @@ struct ContentView: View {
                     isDarkTheme: config.isDarkTheme,
                     selectedSize: config.selectedSize,
                     customHeight: config.customHeight,
+                    isSafeAreaVisualized: config.isShowSafeAreaVisualized,
                     onBack: {
                         path.removeLast()
                     }

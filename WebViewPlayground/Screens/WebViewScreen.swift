@@ -23,9 +23,10 @@ struct WebViewScreen: View {
     let isDarkTheme: Bool
     let selectedSize: WebViewSizeOption
     let customHeight: CGFloat
+    let isSafeAreaVisualized: Bool
     let onBack: () -> Void
 
-    init(webView: WKWebView, initialURL: String, showNavigation: Bool, showURLBar: Bool, showConsoleButton: Bool, isDarkTheme: Bool,selectedSize: WebViewSizeOption, customHeight: CGFloat, onBack: @escaping () -> Void) {
+    init(webView: WKWebView, initialURL: String, showNavigation: Bool, showURLBar: Bool, showConsoleButton: Bool, isDarkTheme: Bool,selectedSize: WebViewSizeOption, customHeight: CGFloat,isSafeAreaVisualized: Bool, onBack: @escaping () -> Void) {
         _urlString = State(initialValue: initialURL)
         _currentURL = State(initialValue: initialURL)
         self.showNavigation = showNavigation
@@ -36,22 +37,25 @@ struct WebViewScreen: View {
         self.isDarkTheme = isDarkTheme
         self.selectedSize = selectedSize
         self.customHeight = customHeight
+        self.isSafeAreaVisualized = isSafeAreaVisualized
     }
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
-                Button(action: onBack) {
-                    HStack {
-                        Image(systemName: "gearshape")
-                        Text("Back to setting")
-                    }.font(.caption)
+            if !isSafeAreaVisualized {
+                HStack {
+                    Button(action: onBack) {
+                        HStack {
+                            Image(systemName: "gearshape")
+                            Text("Back to setting")
+                        }.font(.caption)
+                    }
+                    .padding(.leading)
+                    Spacer()
                 }
-                .padding(.leading)
-                Spacer()
+                .padding(.vertical, 8)
+                .background(Color.gray.opacity(0.1))
             }
-            .padding(.vertical, 8)
-            .background(Color.gray.opacity(0.1))
             if showURLBar {
                 HStack {
                     // URL bar
@@ -66,26 +70,30 @@ struct WebViewScreen: View {
             if isLoading {
                 ProgressView().progressViewStyle(LinearProgressViewStyle())
             }
-            if selectedSize == .custom {
-                CustomWebView(
-                    urlString: currentURL,
-                    canGoBack: $canGoBack,
-                    canGoForward: $canGoForward,
-                    isLoading: $isLoading,
-                    currentURLString: $currentURL,
-                    isDarkTheme: isDarkTheme
-                )
-                .frame(height: customHeight)
-                Filler()
-            } else {
-                CustomWebView(
-                    urlString: currentURL,
-                    canGoBack: $canGoBack,
-                    canGoForward: $canGoForward,
-                    isLoading: $isLoading,
-                    currentURLString: $currentURL,
-                    isDarkTheme: isDarkTheme
-                )
+            Group {
+                if selectedSize == .custom {
+                    CustomWebView(
+                        urlString: currentURL,
+                        canGoBack: $canGoBack,
+                        canGoForward: $canGoForward,
+                        isLoading: $isLoading,
+                        currentURLString: $currentURL,
+                        isDarkTheme: isDarkTheme
+                    )
+                    .frame(height: customHeight)
+                    .modifier(SafeAreaModifier(isSafeAreaVisualized: isSafeAreaVisualized))
+                    Filler()
+                } else {
+                    CustomWebView(
+                        urlString: currentURL,
+                        canGoBack: $canGoBack,
+                        canGoForward: $canGoForward,
+                        isLoading: $isLoading,
+                        currentURLString: $currentURL,
+                        isDarkTheme: isDarkTheme
+                    )
+                    .modifier(SafeAreaModifier(isSafeAreaVisualized: isSafeAreaVisualized))
+                }
             }
             Spacer(minLength: 0)
             if showNavigation {
@@ -132,17 +140,30 @@ struct WebViewScreen: View {
     }
 }
 
+// Helper modifier to ignore safe area if isSafeAreaVisualized is true
+struct SafeAreaModifier: ViewModifier {
+    let isSafeAreaVisualized: Bool
+    func body(content: Content) -> some View {
+        if isSafeAreaVisualized {
+            content.ignoresSafeArea()
+        } else {
+            content
+        }
+    }
+}
+
 #Preview {
     let webView = WKWebView()
     WebViewScreen(
         webView: webView,
         initialURL: "https://line.me",
-        showNavigation: true,
-        showURLBar: true,
+        showNavigation: false,
+        showURLBar: false,
         showConsoleButton: false,
         isDarkTheme: false,
         selectedSize: .full,
         customHeight: UIScreen.main.bounds.height / 2,
+        isSafeAreaVisualized: true,
         onBack: { webView.goBack() }
     )
 }
