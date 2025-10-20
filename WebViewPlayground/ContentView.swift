@@ -16,7 +16,7 @@ struct WebViewConfig: Hashable {
     let isDarkTheme: Bool
     let selectedSize: WebViewSizeOption
     let customHeight: CGFloat
-    let isShowSafeAreaVisualized: Bool = false
+    let isShowSafeAreaVisualized: Bool
 
     static func == (lhs: WebViewConfig, rhs: WebViewConfig) -> Bool {
         lhs.url == rhs.url &&
@@ -50,7 +50,7 @@ struct ContentView: View {
     @State private var path: [WebViewConfig] = []
     @State private var selectedSize: WebViewSizeOption = .full
     @State private var customHeight: CGFloat = UIScreen.main.bounds.height / 2
-    @State private var isSafeAreaVisuallized: Bool = false
+    @State private var isShowSafeAreaVisualized: Bool = false
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -62,7 +62,7 @@ struct ContentView: View {
                 isDarkTheme: $isDarkTheme,
                 selectedSize: $selectedSize,
                 customHeight: $customHeight,
-                isSafeAreaVisualized: $isSafeAreaVisuallized,
+                isSafeAreaVisualized: $isShowSafeAreaVisualized,
                 onStart: {
                     let config = WebViewConfig(
                         url: initialURL,
@@ -71,7 +71,8 @@ struct ContentView: View {
                         showConsoleButton: showConsoleButton,
                         isDarkTheme: isDarkTheme,
                         selectedSize: selectedSize,
-                        customHeight: customHeight
+                        customHeight: customHeight,
+                        isShowSafeAreaVisualized: isShowSafeAreaVisualized
                     )
                     path.append(config)
                 }
