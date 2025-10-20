@@ -17,28 +17,6 @@ struct WebViewConfig: Hashable {
     let selectedSize: WebViewSizeOption
     let customHeight: CGFloat
     let isShowSafeAreaVisualized: Bool
-
-    static func == (lhs: WebViewConfig, rhs: WebViewConfig) -> Bool {
-        lhs.url == rhs.url &&
-        lhs.showNavigation == rhs.showNavigation &&
-        lhs.showURLBar == rhs.showURLBar &&
-        lhs.showConsoleButton == rhs.showConsoleButton &&
-        lhs.isDarkTheme == rhs.isDarkTheme &&
-        lhs.selectedSize == rhs.selectedSize &&
-        lhs.customHeight == rhs.customHeight &&
-        lhs.isShowSafeAreaVisualized == rhs.isShowSafeAreaVisualized
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(url)
-        hasher.combine(showNavigation)
-        hasher.combine(showURLBar)
-        hasher.combine(showConsoleButton)
-        hasher.combine(isDarkTheme)
-        hasher.combine(selectedSize)
-        hasher.combine(customHeight)
-        hasher.combine(isShowSafeAreaVisualized)
-    }
 }
 
 struct ContentView: View {
