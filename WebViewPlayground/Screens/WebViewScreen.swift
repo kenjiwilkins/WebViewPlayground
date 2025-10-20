@@ -93,9 +93,9 @@ struct WebViewScreen: View {
                         isDarkTheme: isDarkTheme
                     )
                     .modifier(SafeAreaModifier(isSafeAreaVisualized: isSafeAreaVisualized))
+                    Spacer(minLength: 0)
                 }
             }
-            Spacer(minLength: 0)
             if showNavigation {
                 HStack {
                     // Back Button
@@ -161,7 +161,7 @@ struct SafeAreaModifier: ViewModifier {
         showURLBar: false,
         showConsoleButton: false,
         isDarkTheme: false,
-        selectedSize: .full,
+        selectedSize: .custom,
         customHeight: UIScreen.main.bounds.height / 2,
         isSafeAreaVisualized: true,
         onBack: { webView.goBack() }
