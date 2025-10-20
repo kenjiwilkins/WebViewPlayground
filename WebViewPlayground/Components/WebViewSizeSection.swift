@@ -26,7 +26,7 @@ struct WebViewSizeSection: View {
             .pickerStyle(.inline) // Shows as radio buttons in a Form
             if selectedSize == .custom {
                 HStack {
-                    Text("Height (px)")
+                    Text("Height (pt)")
                     Spacer()
                     TextField("Height", value: $customHeight, formatter: NumberFormatter())
                         .keyboardType(.numberPad)

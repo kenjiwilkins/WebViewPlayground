@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct Filler: View {
-    @Environment(\.colorScheme) private var colorScheme
     var body: some View {
         ZStack {
             Color(.systemGray5)

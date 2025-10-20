@@ -1,5 +1,5 @@
 //
-//  WebViewSizeSection.swift
+//  SafeAreaVisualizeSection.swift
 //  WebViewPlayground
 //
 //  Created by Michael Wilkins on 2025/10/20.
